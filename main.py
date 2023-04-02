@@ -18,10 +18,15 @@ def create_account(user):
     password = faker.Faker().password()
     driver.get('https://scratch.mit.edu/join')
     username = faker.Faker().user_name() + str(random.randint(1, 10000))
-    driver.find_element(By.ID, 'username').send_keys(username)
-    driver.find_element(By.ID, 'password').send_keys(password)
-    driver.find_element(By.ID, 'passwordConfirm').send_keys(password)
-    driver.find_element(By.XPATH,'/html/body/div[2]/div/div/main/div/form/div/div[2]/button').click()
+    try:
+        driver.find_element(By.ID, 'username').send_keys(username)
+        driver.find_element(By.ID, 'password').send_keys(password)
+        driver.find_element(By.ID, 'passwordConfirm').send_keys(password)
+        driver.find_element(By.XPATH,'/html/body/div[2]/div/div/main/div/form/div/div[2]/button').click()
+    except:
+        driver.quit()
+        return
+    # Check if username is taken
     time.sleep(5)
     select = Select(driver.find_element(By.ID, 'country'))
     time.sleep(4)
